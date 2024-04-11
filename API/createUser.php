@@ -9,8 +9,6 @@ header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type
 
 include_once('../core/initialize.php');
 
-
-
 //create instance of user 
 $user = new User($db);
 

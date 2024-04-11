@@ -32,6 +32,9 @@ class User{
         return $stmt;
     }
 
+
+
+
     public function read_single(){
         $query = 'SELECT *
                     FROM '.$this->table.' u
@@ -56,7 +59,6 @@ class User{
 
         $stmt = $this->conn->prepare($query);
 
-        // clean data sent by user (for security)
         $this->username = htmlspecialchars(strip_tags($this->username));
         $this->email = htmlspecialchars(strip_tags($this->email));
         $this->password = htmlspecialchars(strip_tags($this->password));
@@ -118,4 +120,26 @@ class User{
         printf('Error: %s. \n',$stmt->error);
         return false;
     }
+
+    public function update_password(){
+        $query = 'UPDATE '.$this->table.'
+                    SET password = :password
+                    WHERE id = :id;';
+    
+        $stmt = $this->conn->prepare($query);
+    
+        $this->id = htmlspecialchars(strip_tags($this->id));
+        $this->password = htmlspecialchars(strip_tags($this->password));
+    
+        $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':password', $this->password);
+    
+        if($stmt->execute()){
+            return true;
+        }
+    
+        printf('Error: %s. \n',$stmt->error);
+        return false;
+    }
+    
 }

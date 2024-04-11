@@ -1,17 +1,19 @@
 <?php
 
+<?php
+
 class Reviews {
     private $conn;
     private $table = 'reviews';
 
-    // Properties of a review
+
     public $id;
     public $user_id;
     public $rating;
     public $comment;
     public $time; 
 
-    // initialize database connection
+
     public function __construct($db) {
         $this->conn = $db;
     }
@@ -53,6 +55,7 @@ class Reviews {
         $this->comment = htmlspecialchars(strip_tags($this->comment));
         $this->time = date('Y-m-d H:i:s'); 
 
+        $stmt->bindParam(':id', $this->id);
         $stmt->bindParam(':user_id', $this->user_id);
         $stmt->bindParam(':rating', $this->rating);
         $stmt->bindParam(':comment', $this->comment);
@@ -92,5 +95,22 @@ class Reviews {
         return false;
     }
     
-   
+    // Delete a review
+    public function delete() {
+        $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
+
+        $stmt = $this->conn->prepare($query);
+        $this->id = htmlspecialchars(strip_tags($this->id));
+        $stmt->bindParam(':id', $this->id);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+
+        printf('Error: %s. \n', $stmt->error);
+        return false;
+    }
 }
+
+   
+   
