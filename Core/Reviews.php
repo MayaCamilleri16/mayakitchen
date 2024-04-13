@@ -1,7 +1,5 @@
 <?php
 
-<?php
-
 class Reviews {
     private $conn;
     private $table = 'reviews';
@@ -55,7 +53,6 @@ class Reviews {
         $this->comment = htmlspecialchars(strip_tags($this->comment));
         $this->time = date('Y-m-d H:i:s'); 
 
-        $stmt->bindParam(':id', $this->id);
         $stmt->bindParam(':user_id', $this->user_id);
         $stmt->bindParam(':rating', $this->rating);
         $stmt->bindParam(':comment', $this->comment);
