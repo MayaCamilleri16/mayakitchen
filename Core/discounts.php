@@ -40,7 +40,7 @@ class Discounts {
 
     //create a new discount
     public function create() {
-        $query = 'INSERT INTO ' . $this->table . ' (code, amount, expiration_date) VALUES (:code, :amount, :expiration_date)';
+        $query = 'INSERT INTO ' . $this->table . ' (code, percentage, expiry_date) VALUES (:code, :percentage, :expiry_date)';
 
         $stmt = $this->conn->prepare($query);
 
@@ -49,8 +49,8 @@ class Discounts {
         $this->expiration_date = htmlspecialchars(strip_tags($this->expiration_date));
 
         $stmt->bindParam(':code', $this->code);
-        $stmt->bindParam(':amount', $this->amount);
-        $stmt->bindParam(':expiration_date', $this->expiration_date);
+        $stmt->bindParam(':percentage', $this->percentage);
+        $stmt->bindParam(':expiry_date', $this->expiry_date);
 
         if ($stmt->execute()) {
             return true;
@@ -62,19 +62,19 @@ class Discounts {
 
     //  update an existing discount
     public function update() {
-        $query = 'UPDATE ' . $this->table . ' SET code = :code, amount = :amount, expiration_date = :expiration_date WHERE id = :id';
+        $query = 'UPDATE ' . $this->table . ' SET code = :code, percentage = :percentage, expiry_date = :expiry_date WHERE id = :id';
 
         $stmt = $this->conn->prepare($query);
 
         $this->id = htmlspecialchars(strip_tags($this->id));
         $this->code = htmlspecialchars(strip_tags($this->code));
-        $this->amount = htmlspecialchars(strip_tags($this->amount));
-        $this->expiration_date = htmlspecialchars(strip_tags($this->expiration_date));
+        $this->percentage = htmlspecialchars(strip_tags($this->percentage));
+        $this->expiry_date = htmlspecialchars(strip_tags($this->expiry_date));
 
         $stmt->bindParam(':id', $this->id);
         $stmt->bindParam(':code', $this->code);
-        $stmt->bindParam(':amount', $this->amount);
-        $stmt->bindParam(':expiration_date', $this->expiration_date);
+        $stmt->bindParam(':percentage', $this->percentage);
+        $stmt->bindParam(':expiry_date', $this->expiry_date);
 
         if ($stmt->execute()) {
             return true;
