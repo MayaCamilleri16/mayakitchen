@@ -14,14 +14,12 @@ $data = json_decode(file_get_contents('php://input'));
 
 // Set booking properties
 $booking->user_id = $data->user_id;
-$booking->table_id = $data->table_id;
 $booking->date = $data->date;
 $booking->time = $data->time;
 $booking->party_size = $data->party_size;
-$booking->review_id = $data->review_id;
 $booking->preferences_id = $data->preferences_id;
 $booking->discount_id = $data->discount_id;
-$booking->waitlist_id = $data->waitlist_id;
+
 
 // Create booking
 if ($booking->create()) {

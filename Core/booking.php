@@ -42,41 +42,32 @@ class Booking {
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         $this->user_id = $row['user_id'];
-        $this->table_id = $row['table_id'];
         $this->date = $row['date'];
         $this->time = $row['time'];
         $this->party_size = $row['party_size'];
-        $this->review_id = $row['review_id'];
         $this->preferences_id = $row['preferences_id'];
         $this->discount_id = $row['discount_id'];
-        $this->waitlist_id = $row['waitlist_id'];
     }
 
     //create a new booking
     public function create() {
-        $query = 'INSERT INTO ' . $this->table . ' (user_id, table_id, date, time, party_size, status, review_id, preferences_id, discount_id, waitlist_id) VALUES (:user_id, :table_id, :date, :time, :party_size, :status, :review_id, :preferences_id, :discount_id, :waitlist_id)';
-
+        $query = 'INSERT INTO ' . $this->table . ' (user_id, date, time, party_size, preferences_id, discount_id) VALUES (:user_id, :date, :time, :party_size, :preferences_id, :discount_id)';
         $stmt = $this->conn->prepare($query);
 
         $this->user_id = htmlspecialchars(strip_tags($this->user_id));
-        $this->table_id = htmlspecialchars(strip_tags($this->table_id));
         $this->date = htmlspecialchars(strip_tags($this->date));
         $this->time = htmlspecialchars(strip_tags($this->time));
         $this->party_size = htmlspecialchars(strip_tags($this->party_size));
-        $this->review_id = htmlspecialchars(strip_tags($this->review_id));
         $this->preferences_id = htmlspecialchars(strip_tags($this->preferences_id));
         $this->discount_id = htmlspecialchars(strip_tags($this->discount_id));
-        $this->waitlist_id = htmlspecialchars(strip_tags($this->waitlist_id));
-
+      
         $stmt->bindParam(':user_id', $this->user_id);
-        $stmt->bindParam(':table_id', $this->table_id);
         $stmt->bindParam(':date', $this->date);
         $stmt->bindParam(':time', $this->time);
         $stmt->bindParam(':party_size', $this->party_size);
-        $stmt->bindParam(':review_id', $this->review_id);
         $stmt->bindParam(':preferences_id', $this->preferences_id);
         $stmt->bindParam(':discount_id', $this->discount_id);
-        $stmt->bindParam(':waitlist_id', $this->waitlist_id);
+    
 
         if ($stmt->execute()) {
             return true;
@@ -86,59 +77,56 @@ class Booking {
         return false;
     }
 
-    // update an existing booking
-    public function update() {
-        $query = 'UPDATE ' . $this->table . ' SET user_id = :user_id, table_id = :table_id, date = :date, time = :time, party_size = :party_size, status = :status, review_id = :review_id, preferences_id = :preferences_id, discount_id = :discount_id, waitlist_id = :waitlist_id WHERE id = :id';
+    
+   // update an existing booking
+public function update() {
+    $query = 'UPDATE ' . $this->table . ' SET user_id = :user_id, date = :date, time = :time, party_size = :party_size, preferences_id = :preferences_id, discount_id = :discount_id WHERE id = :id';
 
-        $stmt = $this->conn->prepare($query);
+    $stmt = $this->conn->prepare($query);
 
-        $this->id = htmlspecialchars(strip_tags($this->id));
-        $this->user_id = htmlspecialchars(strip_tags($this->user_id));
-        $this->table_id = htmlspecialchars(strip_tags($this->table_id));
-        $this->date = htmlspecialchars(strip_tags($this->date));
-        $this->time = htmlspecialchars(strip_tags($this->time));
-        $this->party_size = htmlspecialchars(strip_tags($this->party_size));
-        $this->review_id = htmlspecialchars(strip_tags($this->review_id));
-        $this->preferences_id = htmlspecialchars(strip_tags($this->preferences_id));
-        $this->discount_id = htmlspecialchars(strip_tags($this->discount_id));
-        $this->waitlist_id = htmlspecialchars(strip_tags($this->waitlist_id));
+    $this->id = htmlspecialchars(strip_tags($this->id));
+    $this->user_id = htmlspecialchars(strip_tags($this->user_id));
+    $this->date = htmlspecialchars(strip_tags($this->date));
+    $this->time = htmlspecialchars(strip_tags($this->time));
+    $this->party_size = htmlspecialchars(strip_tags($this->party_size));
+    $this->preferences_id = htmlspecialchars(strip_tags($this->preferences_id));
+    $this->discount_id = htmlspecialchars(strip_tags($this->discount_id));
 
-        $stmt->bindParam(':id', $this->id);
-        $stmt->bindParam(':user_id', $this->user_id);
-        $stmt->bindParam(':table_id', $this->table_id);
-        $stmt->bindParam(':date', $this->date);
-        $stmt->bindParam(':time', $this->time);
-        $stmt->bindParam(':party_size', $this->party_size);
-        $stmt->bindParam(':review_id', $this->review_id);
-        $stmt->bindParam(':preferences_id', $this->preferences_id);
-        $stmt->bindParam(':discount_id', $this->discount_id);
-        $stmt->bindParam(':waitlist_id', $this->waitlist_id);
+    $stmt->bindParam(':id', $this->id);
+    $stmt->bindParam(':user_id', $this->user_id);
+    $stmt->bindParam(':date', $this->date);
+    $stmt->bindParam(':time', $this->time);
+    $stmt->bindParam(':party_size', $this->party_size);
+    $stmt->bindParam(':preferences_id', $this->preferences_id);
+    $stmt->bindParam(':discount_id', $this->discount_id);
 
-        if ($stmt->execute()) {
-            return true;
-        }
-
-        printf('Error: %s. \n', $stmt->error);
-        return false;
+    if ($stmt->execute()) {
+        return true;
     }
 
-    // Method to cancel a booking
-    public function cancel() {
-        $query = 'UPDATE ' . $this->table . ' SET status = "cancelled" WHERE id = :id';
+    printf('Error: %s. \n', $stmt->error);
+    return false;
+}
 
-        $stmt = $this->conn->prepare($query);
+// Method to delete a booking
+public function delete() {
+    $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
 
-        $this->id = htmlspecialchars(strip_tags($this->id));
+    $stmt = $this->conn->prepare($query);
 
-        $stmt->bindParam(':id', $this->id);
+    $this->id = htmlspecialchars(strip_tags($this->id));
 
-        if ($stmt->execute()) {
-            return true;
-        }
+    $stmt->bindParam(':id', $this->id);
 
-        printf('Error: %s. \n', $stmt->error);
-        return false;
+    if ($stmt->execute()) {
+        return true;
     }
+
+    printf('Error: %s. \n', $stmt->error);
+    return false;
+}
+
+
 
   // retrieve booking details by ID
 public function getBookingDetails($id) {
@@ -153,14 +141,11 @@ public function getBookingDetails($id) {
     $booking_details = array(
         'id' => $row['id'],
         'user_id' => $row['user_id'],
-        'table_id' => $row['table_id'],
         'date' => $row['date'],
         'time' => $row['time'],
         'party_size' => $row['party_size'],
-        'review_id' => $row['review_id'],
         'preferences_id' => $row['preferences_id'],
         'discount_id' => $row['discount_id'],
-        'waitlist_id' => $row['waitlist_id']
     );
 
     return $booking_details;
