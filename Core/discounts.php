@@ -84,19 +84,7 @@ class Discounts {
         return false;
     }
 
-    //  apply a discount
-    public function apply() {
-        // Add code to apply discount
-    }
 
-
-    public function get() {
-        $query = 'SELECT * FROM ' . $this->table . ' ORDER BY expiration_date DESC';
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt;
-    }
-    
 
     // delete a discount
     public function delete() {
