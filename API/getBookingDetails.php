@@ -1,31 +1,35 @@
 <?php
-
+// Allow cross-origin requests from any origin
 header('Access-Control-Allow-Origin: *');
+// Specify the content type as JSON
 header('Content-Type: application/json');
 
 
 include_once('../core/initialize.php');
 
-
+// Instantiate Booking object
 $booking = new Booking($db);
-$booking->id = isset($_GET['id']) ? $_GET['id'] : die();
 
-// Retrieve booking details
-$booking->read_single();
-
-// Create array to store booking information
-$booking_info = array(
-    'id' => $booking->id,
-    'user_id' => $booking->user_id,
-    'table_id' => $booking->table_id,
-    'date' => $booking->date,
-    'time' => $booking->time,
-    'party_size' => $booking->party_size,
-    'review_id' => $booking->review_id,
-    'preferences_id' => $booking->preferences_id,
-    'discount_id' => $booking->discount_id,
-    'waitlist_id' => $booking->waitlist_id
-);
+// Decode JSON data from the request
+$data = json_decode(file_get_contents('php://input'));
 
 
-echo json_encode($booking_info);
+if (isset($data->id)) {
+    // Set the booking ID
+    $booking->id = $data->id;
+
+    // Get booking details
+    $booking_details = $booking->getBookingDetails();
+
+    if ($booking_details) {
+        // Return booking details as JSON response
+        echo json_encode($booking_details);
+    } else {
+        // Return error message if booking details are not found
+        echo json_encode(array('message' => 'Booking not found'));
+    }
+} else {
+    // Return error message if 'id' field is missing
+    echo json_encode(array('message' => 'ID field is missing'));
+}
+?>

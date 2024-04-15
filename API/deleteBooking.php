@@ -1,30 +1,40 @@
 <?php
+
 // Allow cross-origin requests from any origin, specify the content type as JSON, permit the use of the DELETE method, and define the allowed headers for CORS requests.
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 header('Access-Control-Allow-Methods: DELETE');
 header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
+// Include necessary files
 include_once('../core/initialize.php');
 
-$booking = new Booking($db);
+if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+    $data = json_decode(file_get_contents('php://input'));
 
-// Decode JSON data from the request
-$data = json_decode(file_get_contents('php://input'));
 
-// Check if 'id' field exists in the JSON data
-if (isset($data->id)) {
-    // Set the booking ID
-    $booking->id = $data->id;
+    if (isset($data->id)) {
+        // Instantiate Booking object
+        $booking = new Booking($db);
 
-    // Delete booking
-    if ($booking->delete()) {
-        echo json_encode(array('message' => 'Booking deleted'));
+        // Set the booking ID
+        $booking->id = $data->id;
+
+        // Delete the booking
+        if ($booking->delete()) {
+            // Booking deleted successfully
+            echo json_encode(array('message' => 'Booking deleted'));
+        } else {
+            // Failed to delete booking
+            echo json_encode(array('message' => 'Failed to delete booking'));
+        }
     } else {
-        echo json_encode(array('message' => 'Booking not deleted'));
+        // Handle the case where the 'id' field is missing
+        echo json_encode(array('message' => 'ID field is missing'));
     }
 } else {
-    // Handle the case where the 'id' field is missing
-    echo json_encode(array('message' => 'ID field is missing'));
+    // Handle other request methods
+    echo json_encode(array('message' => 'Invalid request method'));
 }
+
 ?>
