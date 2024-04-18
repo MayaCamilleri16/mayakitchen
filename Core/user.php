@@ -141,5 +141,25 @@ class User{
         printf('Error: %s. \n',$stmt->error);
         return false;
     }
-    
+
+    public function getSpecialOffers() {
+        $query = 'SELECT * FROM special_offers';
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt;
+    }
+
+    public function applySpecialOffer($offer_id) {
+        $query = 'SELECT * FROM special_offers WHERE offer_id = :offer_id';
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':offer_id', $offer_id);
+        $stmt->execute();
+        if ($stmt->rowCount() > 0) {
+            // Offer exists, apply logic to apply the offer to the user
+            return true;
+        } else {
+            // Offer not found
+            return false;
+        }
+    }
 }
