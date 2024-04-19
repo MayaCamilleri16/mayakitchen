@@ -5,10 +5,8 @@ header('Content-Type: application/json');
 
 include_once('../core/initialize.php');
 
-// Initialize Orders object
-$orders = new Orders($db);
 
-// Get data from the request
+$orders = new Orders($db);
 $data = json_decode(file_get_contents('php://input'));
 
 // Check if order_id is provided

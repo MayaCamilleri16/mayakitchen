@@ -20,7 +20,7 @@ require_once(CORE_PATH.DS.'DailySpecials.php');
 require_once(CORE_PATH.DS.'discounts.php');
 require_once(CORE_PATH.DS.'eventFeedback.php');
 require_once(CORE_PATH.DS.'eventManagement.php');
-require_once(CORE_PATH.DS.'loyaltyProgramme.php');
+require_once(CORE_PATH.DS.'loyaltyProgram.php');
 require_once(CORE_PATH.DS.'food.php');
 require_once(CORE_PATH.DS.'drinks.php');
 require_once(CORE_PATH.DS.'notifications.php');

@@ -162,5 +162,31 @@ class User{
             return false;
         }
     }
+    public function getLoyaltyPoints() {
+
+        $query = 'SELECT points FROM loyalty_program WHERE user_id = :user_id';
+        
+        $stmt = $this->conn->prepare(query);
+        $stmt->bindParam(':user_id', $this->user_id, PDO::PARAM_INT);
+        
+ 
+        if ($stmt->execute()) {
+            // the result
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            // Check if result exists
+            if ($result) {
+                // Return the loyalty points
+                return $result['points'];
+            } else {
+                // If no data is found, return 0 points
+                return 0;
+            }
+        } else {
+            // Log any error message
+            error_log('Error executing query: ' . $stmt->errorInfo()[2]);
+            return 0;
+        }
+    }
 }
 ?>

@@ -7,15 +7,12 @@ header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type
 
 include_once('../core/initialize.php');
 
-// Initialize User object
-$user = new User($db);
 
-// Get data from the request
+$user = new User($db);
 $data = json_decode(file_get_contents('php://input'));
 
 // Check if offer_id is provided
 if (!empty($data->offer_id)) {
-    // Set the offer_id from the request data
     $offer_id = $data->offer_id;
 
     // Attempt to apply the special offer
