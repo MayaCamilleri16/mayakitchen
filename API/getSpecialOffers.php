@@ -23,6 +23,7 @@ if (isset($data['queryString'])) {
     // Fetch the results
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    // Check if there are any results
     if ($result) {
         // Return the results
         http_response_code(200); // OK
