@@ -15,6 +15,7 @@ class Orders {
     public $user_id;
     public $table_number;
     public $food_id;
+    public $drink_id;
     public $offer_id;
     public $menu_id;
     public $status;
@@ -25,7 +26,7 @@ class Orders {
 
     public function create() {
         $query = 'INSERT INTO ' . $this->table . ' 
-                    (current_order_id, booking_id, user_id, table_number, food_id, offer_id, menu_id, status)
+                    (current_order_id, booking_id, user_id, table_number, food_id, drink_id, offer_id, menu_id, status)
                     VALUES (:current_order_id, :booking_id, :user_id, :table_number, :food_id, :offer_id, :menu_id, :status)';
 
         $stmt = $this->conn->prepare($query);
@@ -36,6 +37,7 @@ class Orders {
         $this->user_id = htmlspecialchars(strip_tags($this->user_id));
         $this->table_number = htmlspecialchars(strip_tags($this->table_number));
         $this->food_id = htmlspecialchars(strip_tags($this->food_id));
+        $this->drink_id = htmlspecialchars(strip_tags($this->drink_id));
         $this->offer_id = htmlspecialchars(strip_tags($this->offer_id));
         $this->menu_id = htmlspecialchars(strip_tags($this->menu_id));
         $this->status = htmlspecialchars(strip_tags($this->status));
@@ -46,6 +48,7 @@ class Orders {
         $stmt->bindParam(':user_id', $this->user_id);
         $stmt->bindParam(':table_number', $this->table_number);
         $stmt->bindParam(':food_id', $this->food_id);
+        $stmt->bindParam(':drink_id', $this->drink_id);
         $stmt->bindParam(':offer_id', $this->offer_id);
         $stmt->bindParam(':menu_id', $this->menu_id);
         $stmt->bindParam(':status', $this->status);
@@ -70,12 +73,13 @@ class Orders {
         return $orders;
     }
     
-    public function placeFoodOrders($current_order_id, $booking_id, $user_id, $table_number, $food_id, $offer_id, $menu_id) {
+    public function placeFoodOrders($current_order_id, $booking_id, $user_id, $table_number, $food_id, $drink_id, $offer_id, $menu_id) {
         $this->current_order_id = $current_order_id;
         $this->booking_id = $booking_id;
         $this->user_id = $user_id;
         $this->table_number = $table_number;
         $this->food_id = $food_id;
+        $this->drink_id = $drink_id;
         $this->offer_id = $offer_id;
         $this->menu_id = $menu_id;
         $this->status = "pending";
