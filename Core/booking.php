@@ -1,11 +1,11 @@
 <?php
 
 class Booking {
-    // Properties for database connection and table
+  
     private $conn;
     private $table = 'bookings';
 
-    // Properties of a booking
+    
     public $id;
     public $user_id;
     public $date;

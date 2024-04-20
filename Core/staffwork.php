@@ -1,33 +1,28 @@
 <?php
 
 class Staff {
-    // Properties for database connection and table name
     private $conn;
     private $table = 'staff_work';
 
-    // Properties of Staff
     public $staff_id;
     public $username;
     public $email;
     public $password;
     public $role;
 
-    // Staff Constructor
+    
     public function __construct($db){
         $this->conn = $db;
     }
 
     // Getting Staff from db
     public function read(){
-        // Read Query
         $query = 'SELECT *
                     FROM '.$this->table.' s
                     ORDER BY s.username ASC;';
 
-        // prepare statement
+      
         $stmt = $this->conn->prepare($query);
-
-        // execute query
         $stmt->execute();
 
         return $stmt;
@@ -123,7 +118,7 @@ class Staff {
         printf('Error: %s. \n',$stmt->error);
         return false;
     }
-}
+
 public function getEventFeedback($event_id) {
     // Define the query to retrieve feedback for the specified event
     $query = 'SELECT ef.feedback_id, ef.event_id, ef.user_id, ef.comment, ef.time, ef.rating, u.username AS user_name
@@ -157,6 +152,7 @@ public function getEventFeedback($event_id) {
 
     // Return the feedback list
     return $feedbackList;
+}
 }
 
 ?>

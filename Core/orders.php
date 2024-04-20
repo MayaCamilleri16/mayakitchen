@@ -1,120 +1,117 @@
 <?php
 
-header('Access-Control-Allow-Origin: *');
-header('Content-Type: application/json');
-
-include_once('../core/initialize.php');
-
 class Orders {
     private $conn;
-    private $table = 'orders';
+    private $table = 'order';
 
     public $order_id;
-    public $current_order_id;
     public $booking_id;
-    public $user_id;
-    public $table_number;
     public $food_id;
     public $drink_id;
+    public $discount_id;
+    public $table_id;
     public $offer_id;
-    public $menu_id;
-    public $status;
 
     public function __construct($db) {
         $this->conn = $db;
     }
 
+//waiter can create a new order
     public function create() {
-        $query = 'INSERT INTO ' . $this->table . ' 
-                    (current_order_id, booking_id, user_id, table_number, food_id, drink_id, offer_id, menu_id, status)
-                    VALUES (:current_order_id, :booking_id, :user_id, :table_number, :food_id, :offer_id, :menu_id, :status)';
+        $query = 'INSERT INTO `' . $this->table . '` 
+        (booking_id, food_id, drink_id, discount_id, table_id, offer_id)
+        VALUES (:booking_id, :food_id, :drink_id, :discount_id, :table_id, :offer_id)';
 
         $stmt = $this->conn->prepare($query);
-
-        // Sanitize input
-        $this->current_order_id = htmlspecialchars(strip_tags($this->current_order_id));
-        $this->booking_id = htmlspecialchars(strip_tags($this->booking_id));
-        $this->user_id = htmlspecialchars(strip_tags($this->user_id));
-        $this->table_number = htmlspecialchars(strip_tags($this->table_number));
-        $this->food_id = htmlspecialchars(strip_tags($this->food_id));
-        $this->drink_id = htmlspecialchars(strip_tags($this->drink_id));
-        $this->offer_id = htmlspecialchars(strip_tags($this->offer_id));
-        $this->menu_id = htmlspecialchars(strip_tags($this->menu_id));
-        $this->status = htmlspecialchars(strip_tags($this->status));
-
-        // Bind parameters
-        $stmt->bindParam(':current_order_id', $this->current_order_id);
+        
         $stmt->bindParam(':booking_id', $this->booking_id);
-        $stmt->bindParam(':user_id', $this->user_id);
-        $stmt->bindParam(':table_number', $this->table_number);
         $stmt->bindParam(':food_id', $this->food_id);
         $stmt->bindParam(':drink_id', $this->drink_id);
+        $stmt->bindParam(':discount_id', $this->discount_id);
+        $stmt->bindParam(':table_id', $this->table_id);
         $stmt->bindParam(':offer_id', $this->offer_id);
-        $stmt->bindParam(':menu_id', $this->menu_id);
-        $stmt->bindParam(':status', $this->status);
 
         // Execute query
-        if ($stmt->execute()) {
-            return true;
-        }
-
-        printf('Error: %s. \n', $stmt->error);
-        return false;
+        return $stmt->execute();
     }
 
-    public function viewPendingOrders() {
-        $query = 'SELECT * FROM ' . $this->table . ' WHERE status = "pending"';
+    //waiter can update order
+    public function update() {
+        $query = 'UPDATE `' . $this->table . '` SET 
+                  booking_id = :booking_id,
+                  food_id = :food_id,
+                  drink_id = :drink_id,
+                  discount_id = :discount_id,
+                  table_id = :table_id,
+                  offer_id = :offer_id
+                  WHERE order_id = :order_id';
     
+        $stmt = $this->conn->prepare($query);
+    
+       
+        $stmt->bindParam(':order_id', $this->order_id);
+        $stmt->bindParam(':booking_id', $this->booking_id);
+        $stmt->bindParam(':food_id', $this->food_id);
+        $stmt->bindParam(':drink_id', $this->drink_id);
+        $stmt->bindParam(':discount_id', $this->discount_id);
+        $stmt->bindParam(':table_id', $this->table_id);
+        $stmt->bindParam(':offer_id', $this->offer_id);
+    
+        // Execute query
+        return $stmt->execute();
+    }
+    
+// waiter can delete order
+    public function delete() {
+        $query = 'DELETE FROM `' . $this->table . '` WHERE order_id = :order_id';
+    
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':order_id', $this->order_id);
+    
+        // Execute query
+        return $stmt->execute();
+    }
+    
+    // Read all orders
+    public function read() {
+        $query = 'SELECT * FROM ' . $this->table;
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
-    
-        $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-        return $orders;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
-    public function placeFoodOrders($current_order_id, $booking_id, $user_id, $table_number, $food_id, $drink_id, $offer_id, $menu_id) {
-        $this->current_order_id = $current_order_id;
-        $this->booking_id = $booking_id;
-        $this->user_id = $user_id;
-        $this->table_number = $table_number;
-        $this->food_id = $food_id;
-        $this->drink_id = $drink_id;
-        $this->offer_id = $offer_id;
-        $this->menu_id = $menu_id;
-        $this->status = "pending";
-    
-        // Call create method to insert the order
-        return $this->create();
-    }
-    
-    public function markOrderAsServed($order_id) {
-        $query = 'UPDATE ' . $this->table . ' SET status = "served" WHERE order_id = :order_id';
-    
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':order_id', $order_id);
-    
-        if ($stmt->execute()) {
-            return true;
-        }
-    
-        printf('Error: %s. \n', $stmt->error);
-        return false;
-    }
-    
-    public function getOrderDetails($order_id) {
+
+    // Read a single order by order_id
+    public function readSingle() {
         $query = 'SELECT * FROM ' . $this->table . ' WHERE order_id = :order_id';
-    
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':order_id', $this->order_id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getOrderDetails($order_id) {
+        $query = 'SELECT * FROM `' . $this->table . '` WHERE order_id = :order_id';
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':order_id', $order_id);
         $stmt->execute();
-    
-        $order = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-        return $order;
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     
+    
+
+    // waiter marks order as served
+    public function markOrderAsServed() {
+        $query = 'UPDATE `' . $this->table . '` SET status = "served" WHERE order_id = :order_id';
+    
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':order_id', $this->order_id, PDO::PARAM_INT);
+    
+        // Execute query
+        return $stmt->execute();
+    }
 
 }
 
 ?>
+

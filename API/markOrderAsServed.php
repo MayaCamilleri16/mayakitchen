@@ -7,13 +7,11 @@ header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type
 
 include_once('../core/initialize.php');
 
-// Initialize Orders object
-$orders = new Orders($db);
 
-// Get data from the request
+$orders = new Orders($db);
 $data = json_decode(file_get_contents('php://input'));
 
-// Check if order_id is provided
+
 if (!empty($data->order_id)) {
     // Set the order_id from the request data
     $order_id = $data->order_id;
