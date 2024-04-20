@@ -155,7 +155,6 @@ class User{
         $stmt->bindParam(':offer_id', $offer_id);
         $stmt->execute();
         if ($stmt->rowCount() > 0) {
-            // Offer exists, apply logic to apply the offer to the user
             return true;
         } else {
             // Offer not found
@@ -188,5 +187,24 @@ class User{
             return 0;
         }
     }
+    public function getDailySpecials() {
+        $query = 'SELECT * FROM DailySpecials ORDER BY date ASC';
+    
+        //statement
+        $stmt = $this->conn->prepare($query);
+    
+        // Execute
+        if ($stmt->execute()) {
+            // Fetch all daily specials from the database
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $result;  // Return the array of daily specials
+        } else {
+            // Handle any errors that occur during query execution
+            error_log('Error executing query: ' . $stmt->errorInfo()[2]);
+            return [];  // Return an empty array in case of an error
+        }
+    }
+    
+
 }
 ?>
