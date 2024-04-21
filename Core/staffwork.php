@@ -153,6 +153,7 @@ public function getEventFeedback($event_id) {
     // Return the feedback list
     return $feedbackList;
 }
+
 }
 
 ?>
