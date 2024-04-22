@@ -23,13 +23,11 @@ require_once(CORE_PATH.DS.'eventManagement.php');
 require_once(CORE_PATH.DS.'loyaltyProgram.php');
 require_once(CORE_PATH.DS.'food.php');
 require_once(CORE_PATH.DS.'drinks.php');
-require_once(CORE_PATH.DS.'notifications.php');
 require_once(CORE_PATH.DS.'orderManagement.php');
 require_once(CORE_PATH.DS.'orders.php');
 require_once(CORE_PATH.DS.'recipes.php');
-require_once(CORE_PATH.DS.'reservationManagement.php');
 require_once(CORE_PATH.DS.'Reviews.php');
 require_once(CORE_PATH.DS.'specialOffers.php');
 require_once(CORE_PATH.DS.'staffmanagement.php');
 require_once(CORE_PATH.DS.'userPreferances.php');
-require_once(CORE_PATH.DS.'waitlistManagement.php');
+
