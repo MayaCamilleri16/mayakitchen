@@ -1,5 +1,5 @@
 <?php
-// requests from any origin
+// Allow requests from any origin
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
@@ -18,10 +18,11 @@ $table = new Tables($db);
 $data = json_decode(file_get_contents('php://input'));
 
 // Check if the required properties are set in the request data
-if (isset($data->table_id) && isset($data->number)) {
+if (isset($data->table_id) && isset($data->number) && isset($data->available)) {
     // Set the properties of the table instance
     $table->table_id = $data->table_id;
     $table->number = $data->number;
+    $table->available = $data->available;
 
     // Attempt to update the table
     if ($table->update()) {

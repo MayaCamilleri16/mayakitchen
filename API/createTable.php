@@ -1,5 +1,5 @@
 <?php
-// Allow requests from any origin
+// headers
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
@@ -17,10 +17,11 @@ $table = new Tables($db);
 // Get the raw POST data from the request
 $data = json_decode(file_get_contents('php://input'));
 
-// Check if the 'number' property is set in the request data
-if (isset($data->number)) {
-    // Set the 'number' property of the table instance
+// Check if the required properties are set in the request data
+if (isset($data->number) && isset($data->available)) {
+    // Set the 'number' and 'available' properties of the table instance
     $table->number = $data->number;
+    $table->available = $data->available;
 
     // Attempt to create a new table
     if ($table->create()) {

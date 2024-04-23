@@ -15,7 +15,6 @@ defined('CORE_PATH')? null : define('CORE_PATH', SITE_ROOT.DS.'core');
 require_once(INC_PATH.DS.'config.php');
 require_once(CORE_PATH.DS.'user.php');
 require_once(CORE_PATH.DS.'booking.php');
-require_once(CORE_PATH.DS.'BusinessInsight.php');
 require_once(CORE_PATH.DS.'DailySpecials.php');
 require_once(CORE_PATH.DS.'discounts.php');
 require_once(CORE_PATH.DS.'eventFeedback.php');
@@ -29,6 +28,6 @@ require_once(CORE_PATH.DS.'orders.php');
 require_once(CORE_PATH.DS.'recipes.php');
 require_once(CORE_PATH.DS.'Reviews.php');
 require_once(CORE_PATH.DS.'specialOffers.php');
-require_once(CORE_PATH.DS.'staffmanagement.php');
 require_once(CORE_PATH.DS.'userPreferances.php');
+require_once(CORE_PATH.DS.'UsersOrderApp.php');
 
