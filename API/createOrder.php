@@ -5,10 +5,13 @@ header('Content-Type: application/json');
 header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
-include_once('../core/initialize.php');
+include_once('../core/initialize.php'); 
 
 
+// Instantiate Orders model
 $order = new Orders($db);
+
+// Get raw posted data
 $data = json_decode(file_get_contents('php://input'));
 
 if (
@@ -19,7 +22,7 @@ if (
     !empty($data->table_id) &&
     !empty($data->offer_id)
 ) {
-
+    // properties
     $order->booking_id = htmlspecialchars(strip_tags($data->booking_id));
     $order->food_id = htmlspecialchars(strip_tags($data->food_id));
     $order->drink_id = htmlspecialchars(strip_tags($data->drink_id));
@@ -27,21 +30,21 @@ if (
     $order->table_id = htmlspecialchars(strip_tags($data->table_id));
     $order->offer_id = htmlspecialchars(strip_tags($data->offer_id));
 
+    // Attempt to create the order
     if ($order->create()) {
-        // Order created successfully
-        http_response_code(201); // Created
+        // If successful, return a 201 Created response with a success message
+        http_response_code(201); // HTTP 201 Created
         echo json_encode(array('message' => 'Order created successfully.'));
     } else {
-        // Failed to create order
-        http_response_code(500); // Internal Server Error
+        // If unsuccessful, return a 500 Internal Server Error response
+        http_response_code(500); // HTTP 500 Internal Server Error
+        error_log('Failed to create order');
         echo json_encode(array('message' => 'Unable to create order.'));
     }
 } else {
-    // Missing required data
-    http_response_code(400); // Bad Request
+    // If data is incomplete, return a 400 Bad Request response
+    http_response_code(400); // HTTP 400 Bad Request
     echo json_encode(array('message' => 'Incomplete data. Please provide all required fields.'));
 }
+
 ?>
-
-
-

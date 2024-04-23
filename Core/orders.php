@@ -17,23 +17,29 @@ class Orders {
     }
 
 //waiter can create a new order
-    public function create() {
-        $query = 'INSERT INTO `' . $this->table . '` 
-        (booking_id, food_id, drink_id, discount_id, table_id, offer_id)
-        VALUES (:booking_id, :food_id, :drink_id, :discount_id, :table_id, :offer_id)';
+public function create() {
+    $query = 'INSERT INTO `' . $this->table . '` 
+    (booking_id, food_id, drink_id, discount_id, table_id, offer_id)
+    VALUES (:booking_id, :food_id, :drink_id, :discount_id, :table_id, :offer_id)';
 
-        $stmt = $this->conn->prepare($query);
-        
-        $stmt->bindParam(':booking_id', $this->booking_id);
-        $stmt->bindParam(':food_id', $this->food_id);
-        $stmt->bindParam(':drink_id', $this->drink_id);
-        $stmt->bindParam(':discount_id', $this->discount_id);
-        $stmt->bindParam(':table_id', $this->table_id);
-        $stmt->bindParam(':offer_id', $this->offer_id);
+    $stmt = $this->conn->prepare($query);
+    
+    $stmt->bindParam(':booking_id', $this->booking_id);
+    $stmt->bindParam(':food_id', $this->food_id);
+    $stmt->bindParam(':drink_id', $this->drink_id);
+    $stmt->bindParam(':discount_id', $this->discount_id);
+    $stmt->bindParam(':table_id', $this->table_id);
+    $stmt->bindParam(':offer_id', $this->offer_id);
 
-        // Execute query
-        return $stmt->execute();
+    try {
+        $stmt->execute();
+        return true;
+    } catch (PDOException $e) {
+        error_log('Error creating order: ' . $e->getMessage());
+        return false;
     }
+    
+}
 
     //waiter can update order
     public function update() {
@@ -112,6 +118,7 @@ class Orders {
     }
 
 }
+
 
 ?>
 
