@@ -1,10 +1,10 @@
 <?php
-
+//li se jircievu staff
 class AppOrders {
     private $conn;
     private $table = 'appOrders';
 
-    // Properties representing columns in the orders table
+    // Properties 
     public $order_id;
     public $user_id;
     public $order_date;
@@ -34,7 +34,7 @@ class AppOrders {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Create a new order
+    // Create a new order for the user so they can see the price, status and delivery
     public function create() {
         $query = 'INSERT INTO ' . $this->table . ' 
                   (user_id, order_date, total_price, status, delivery_type)
@@ -59,7 +59,7 @@ class AppOrders {
         }
     }
 
-    // Update an existing order
+    // Update the order
     public function update() {
         $query = 'UPDATE ' . $this->table . ' SET 
                   user_id = :user_id,
@@ -89,7 +89,7 @@ class AppOrders {
         }
     }
 
-    // Delete an order
+    // Delete the order when its delivered or no longer needed
     public function delete() {
         $query = 'DELETE FROM ' . $this->table . ' WHERE order_id = :order_id';
 

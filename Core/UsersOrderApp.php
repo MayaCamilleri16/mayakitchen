@@ -1,10 +1,10 @@
 <?php
-
-class OrderItems {
+class UserOrdersApp {
     private $conn;
-    private $table = 'Order_Items';
+    private $table = 'UserOrdersApp';
 
     public $order_id;
+    public $user_id; 
     public $food_id;
     public $drink_id;
     public $quantity_food;
@@ -34,13 +34,14 @@ class OrderItems {
 
     // Users can create a new order in the app
     public function create() {
-        $query = 'INSERT INTO ' . $this->table . ' (order_id, food_id, drink_id, quantity_food, quantity_drink, discount_id)
-                  VALUES (:order_id, :food_id, :drink_id, :quantity_food, :quantity_drink, :discount_id)';
+        $query = 'INSERT INTO ' . $this->table . ' (order_id, user_id, food_id, drink_id, quantity_food, quantity_drink, discount_id)
+                  VALUES (:order_id, :user_id, :food_id, :drink_id, :quantity_food, :quantity_drink, :discount_id)';
         
         $stmt = $this->conn->prepare($query);
         
         // Bind parameters
         $stmt->bindParam(':order_id', $this->order_id, PDO::PARAM_INT);
+        $stmt->bindParam(':user_id', $this->user_id, PDO::PARAM_INT); // Added binding for user_id
         $stmt->bindParam(':food_id', $this->food_id, PDO::PARAM_INT);
         $stmt->bindParam(':drink_id', $this->drink_id, PDO::PARAM_INT);
         $stmt->bindParam(':quantity_food', $this->quantity_food, PDO::PARAM_INT);
@@ -51,7 +52,7 @@ class OrderItems {
         return $stmt->execute();
     }
 
-    // user can delete an order in the app
+    // User can delete an order in the app
     public function delete() {
         $query = 'DELETE FROM ' . $this->table . ' WHERE order_id = :order_id';
         
@@ -64,5 +65,6 @@ class OrderItems {
         return $stmt->execute();
     }
 }
+
 
 ?>

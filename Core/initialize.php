@@ -23,7 +23,6 @@ require_once(CORE_PATH.DS.'loyaltyProgram.php');
 require_once(CORE_PATH.DS.'food.php');
 require_once(CORE_PATH.DS.'drinks.php');
 require_once(CORE_PATH.DS.'appOrders.php');
-require_once(CORE_PATH.DS.'orderManagement.php');
 require_once(CORE_PATH.DS.'orders.php');
 require_once(CORE_PATH.DS.'recipes.php');
 require_once(CORE_PATH.DS.'Reviews.php');

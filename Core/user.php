@@ -204,7 +204,71 @@ class User{
             return [];  // Return an empty array in case of an error
         }
     }
-    
 
+    //users can view their order from the app
+    public function getAppOrdersDetails() {
+        // Define the query to retrieve all app orders
+        $query = 'SELECT ao.order_id, ao.order_date, ao.food_id, ao.drink_id, ao.quantity_food, ao.quantity_drink, ao.discount_id 
+                  FROM appOrders ao
+                  ORDER BY ao.order_date DESC';
+        
+        // Log the query for debugging
+        error_log('Query: ' . $query);
+        
+        // Prepare the statement
+        $stmt = $this->conn->prepare($query);
+        
+        // Execute the query
+        if ($stmt->execute()) {
+            // Fetch the results as an associative array
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            // Return the result
+            return $result;
+        } else {
+            // Log any error message
+            error_log('Error executing query: ' . $stmt->errorInfo()[2]);
+            
+            // Return an empty array in case of an error
+            return [];
+        }
+    }
+
+    // user get updates on their order they made from the app
+    public function getOrderUpdate($order_id) {
+        $query = 'SELECT order_id, order_date, user_id, total_price, status, delivery_type
+                  FROM appOrders
+                  WHERE order_id = :order_id';
+    
+        // Prepare the statement
+        $stmt = $this->conn->prepare($query);
+        // Bind the order_id parameter
+        $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
+    
+        // Execute the query
+        if ($stmt->execute()) {
+            // Fetch the order details
+            $order = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if ($order) {
+                // Log the order details for debugging
+                error_log('Order details: ' . json_encode($order));
+                
+                // Return the order details
+                return $order;
+            } else {
+                // Order not found, log an error message
+                error_log('Order not found for order_id: ' . $order_id);
+                return null;
+            }
+        } else {
+            // Log any error message
+            error_log('Error executing query: ' . $stmt->errorInfo()[2]);
+            return null;
+        }
+    }
+    
+    
+    
 }
 ?>

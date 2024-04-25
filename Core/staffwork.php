@@ -154,6 +154,27 @@ public function getEventFeedback($event_id) {
     return $feedbackList;
 }
 
+public function getUserOrderDetails($order_id, $user_id) {
+    // Define the query to retrieve the order details based on order_id and user_id
+    $query = 'SELECT * FROM ' . $this->table . ' WHERE order_id = :order_id AND user_id = :user_id';
+    
+    // Prepare the statement
+    $stmt = $this->conn->prepare($query);
+    
+    // Bind the parameters
+    $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    
+    // Execute the statement
+    $stmt->execute();
+    
+    // Fetch the order details as an associative array
+    $orderDetails = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    // Return the order details
+    return $orderDetails;
 }
+}
+
 
 ?>

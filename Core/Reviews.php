@@ -107,7 +107,38 @@ class Reviews {
         printf('Error: %s. \n', $stmt->error);
         return false;
     }
+    public function getUserReviews() {
+        // Define the query to retrieve all user reviews
+        $query = 'SELECT r.id, r.user_id, r.rating, r.comment, r.time, u.username AS user_name
+                  FROM ' . $this->table . ' r
+                  JOIN users u ON r.user_id = u.id
+                  ORDER BY r.time DESC';
+    
+        // Prepare the statement
+        $stmt = $this->conn->prepare($query);
+    
+        // Execute the statement
+        $stmt->execute();
+    
+        // Fetch the reviews as an associative array
+        $reviewsList = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $reviewsList[] = array(
+                'id' => $row['id'],
+                'user_id' => $row['user_id'],
+                'rating' => $row['rating'],
+                'comment' => $row['comment'],
+                'time' => $row['time'],
+                'user_name' => $row['user_name']
+            );
+        }
+    
+        // Return the reviews list
+        return $reviewsList;
+    }    
+    
 }
+?>
 
    
    
