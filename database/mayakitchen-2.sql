@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Apr 24, 2024 at 03:12 PM
+-- Generation Time: Apr 25, 2024 at 06:27 PM
 -- Server version: 5.7.39
 -- PHP Version: 7.4.33
 
@@ -309,28 +309,6 @@ INSERT INTO `order` (`order_id`, `booking_id`, `food_id`, `drink_id`, `discount_
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Order_Items`
---
-
-CREATE TABLE `Order_Items` (
-  `order_id` int(11) NOT NULL,
-  `food_id` int(11) NOT NULL,
-  `drink_id` int(11) NOT NULL,
-  `quantity_food` int(10) NOT NULL,
-  `quantity_drink` int(10) NOT NULL,
-  `discount_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `Order_Items`
---
-
-INSERT INTO `Order_Items` (`order_id`, `food_id`, `drink_id`, `quantity_food`, `quantity_drink`, `discount_id`) VALUES
-(1, 16, 3, 2, 2, 1);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `recipes`
 --
 
@@ -378,7 +356,8 @@ INSERT INTO `reviews` (`id`, `user_id`, `rating`, `comment`, `time`) VALUES
 (1, 1, '2.00', 'poor service', '2024-04-13 10:11:23'),
 (7, 1, '5.00', 'Good service, polite waiters', '2024-04-11 06:58:16'),
 (8, 1, '5.00', 'Good service, polite waiters', '2024-04-13 10:07:02'),
-(9, 1, '5.00', 'Good service, polite waiters', '2024-04-13 10:09:06');
+(9, 1, '5.00', 'Good service, polite waiters', '2024-04-13 10:09:06'),
+(10, 1, '5.00', 'Good service, polite waiters', '2024-04-25 15:58:13');
 
 -- --------------------------------------------------------
 
@@ -464,19 +443,6 @@ INSERT INTO `staff_shifts` (`id`, `staff_id`, `start_time`, `end_time`, `date`) 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `staff_waitlist`
---
-
-CREATE TABLE `staff_waitlist` (
-  `waitlist_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `party_size` varchar(50) NOT NULL,
-  `estimated_wait_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `staff_work`
 --
 
@@ -530,6 +496,29 @@ INSERT INTO `tables` (`table_id`, `number`, `available`) VALUES
 (11, '5', '0'),
 (12, '13', 'yes'),
 (13, '5', 'yes');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `UserOrdersApp`
+--
+
+CREATE TABLE `UserOrdersApp` (
+  `order_id` int(11) NOT NULL,
+  `food_id` int(11) NOT NULL,
+  `quantity_food` int(11) NOT NULL,
+  `drink_id` int(11) NOT NULL,
+  `quantity_drink` int(11) NOT NULL,
+  `discount_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `UserOrdersApp`
+--
+
+INSERT INTO `UserOrdersApp` (`order_id`, `food_id`, `quantity_food`, `drink_id`, `quantity_drink`, `discount_id`, `user_id`) VALUES
+(1, 23, 2, 9, 2, 1, 4);
 
 -- --------------------------------------------------------
 
@@ -642,15 +631,6 @@ ALTER TABLE `order`
   ADD KEY `table_id` (`table_id`);
 
 --
--- Indexes for table `Order_Items`
---
-ALTER TABLE `Order_Items`
-  ADD PRIMARY KEY (`order_id`),
-  ADD KEY `order_items_ibfk_1` (`food_id`),
-  ADD KEY `drink_id` (`drink_id`),
-  ADD KEY `discount_id` (`discount_id`);
-
---
 -- Indexes for table `recipes`
 --
 ALTER TABLE `recipes`
@@ -690,13 +670,6 @@ ALTER TABLE `staff_shifts`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `staff_waitlist`
---
-ALTER TABLE `staff_waitlist`
-  ADD PRIMARY KEY (`waitlist_id`),
-  ADD KEY `user_id` (`user_id`);
-
---
 -- Indexes for table `staff_work`
 --
 ALTER TABLE `staff_work`
@@ -707,6 +680,15 @@ ALTER TABLE `staff_work`
 --
 ALTER TABLE `tables`
   ADD PRIMARY KEY (`table_id`);
+
+--
+-- Indexes for table `UserOrdersApp`
+--
+ALTER TABLE `UserOrdersApp`
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `discount_id` (`discount_id`),
+  ADD KEY `food_id` (`food_id`),
+  ADD KEY `drink_id` (`drink_id`);
 
 --
 -- Indexes for table `Users`
@@ -785,12 +767,6 @@ ALTER TABLE `order`
   MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `Order_Items`
---
-ALTER TABLE `Order_Items`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
 -- AUTO_INCREMENT for table `recipes`
 --
 ALTER TABLE `recipes`
@@ -800,7 +776,7 @@ ALTER TABLE `recipes`
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `serve_feedback`
@@ -825,12 +801,6 @@ ALTER TABLE `staff`
 --
 ALTER TABLE `staff_shifts`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT for table `staff_waitlist`
---
-ALTER TABLE `staff_waitlist`
-  MODIFY `waitlist_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `staff_work`
@@ -893,14 +863,6 @@ ALTER TABLE `order`
   ADD CONSTRAINT `order_ibfk_6` FOREIGN KEY (`table_id`) REFERENCES `tables` (`table_id`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `Order_Items`
---
-ALTER TABLE `Order_Items`
-  ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`food_id`) REFERENCES `food` (`food_id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`drink_id`) REFERENCES `drinks` (`drink_id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `order_items_ibfk_3` FOREIGN KEY (`discount_id`) REFERENCES `discounts` (`id`) ON UPDATE CASCADE;
-
---
 -- Constraints for table `reviews`
 --
 ALTER TABLE `reviews`
@@ -919,10 +881,13 @@ ALTER TABLE `staff`
   ADD CONSTRAINT `staff_ibfk_1` FOREIGN KEY (`current_order_id`) REFERENCES `order` (`order_id`);
 
 --
--- Constraints for table `staff_waitlist`
+-- Constraints for table `UserOrdersApp`
 --
-ALTER TABLE `staff_waitlist`
-  ADD CONSTRAINT `staff_waitlist_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`);
+ALTER TABLE `UserOrdersApp`
+  ADD CONSTRAINT `userordersapp_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `userordersapp_ibfk_2` FOREIGN KEY (`discount_id`) REFERENCES `discounts` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `userordersapp_ibfk_3` FOREIGN KEY (`food_id`) REFERENCES `food` (`food_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `userordersapp_ibfk_4` FOREIGN KEY (`drink_id`) REFERENCES `drinks` (`drink_id`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
