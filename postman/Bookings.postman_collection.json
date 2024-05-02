@@ -1,0 +1,106 @@
+{
+	"info": {
+		"_postman_id": "d715c04a-41b3-4c62-a340-3e2b1f81e5b2",
+		"name": "Bookings",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32851632"
+	},
+	"item": [
+		{
+			"name": "UpdateBooking",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user_id\":\"2\",\n    \"date\":\"2024-04-04\",\n    \"time\":\"20:01:15\",\n    \"party_size\":\"5\",\n    \"preferences_id\":\"3\",\n    \"discount_id\":\"1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8888/mayakitchen/API/updateBooking.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"mayakitchen",
+						"API",
+						"updateBooking.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateBooking",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user_id\":\"1\",\n    \"date\":\"2024-04-04\",\n    \"time\":\"18:01:15\",\n    \"party_size\":\"5\",\n    \"preferences_id\":\"2\",\n    \"discount_id\":\"1\"\n}\n\n   ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8888/mayakitchen/API/createBooking.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"mayakitchen",
+						"API",
+						"createBooking.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteBooking",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\n{\n    \"id\": 1\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8888/mayakitchen/API/deleteBooking.php?id=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"mayakitchen",
+						"API",
+						"deleteBooking.php"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

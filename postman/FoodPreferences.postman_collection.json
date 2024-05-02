@@ -1,0 +1,112 @@
+{
+	"info": {
+		"_postman_id": "2f9688db-d1cb-4544-a675-b90a71cbfb7d",
+		"name": "FoodPreferences",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32851632"
+	},
+	"item": [
+		{
+			"name": "Createdietray",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"preferences_id\": 8,\n    \"preference_name\": \"Vegan\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8888/mayakitchen/API/CreateDietaryPreferences.php?",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"mayakitchen",
+						"API",
+						"CreateDietaryPreferences.php"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deletedietray",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"preferences_id\": \"4\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8888/mayakitchen/API/DeleteDietaryPreferences.php?",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"mayakitchen",
+						"API",
+						"DeleteDietaryPreferences.php"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateDietray",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"preferences_id\": \"1\",\n    \"preference_name\": \"Lactose\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8888/mayakitchen/API/UpdateDietaryPreferences.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"mayakitchen",
+						"API",
+						"UpdateDietaryPreferences.php"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

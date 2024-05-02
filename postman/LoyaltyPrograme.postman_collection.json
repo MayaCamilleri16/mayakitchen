@@ -1,0 +1,100 @@
+{
+	"info": {
+		"_postman_id": "c1dc7404-f0e3-4c9c-b0c4-87014055346f",
+		"name": "LoyaltyPrograme",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32851632"
+	},
+	"item": [
+		{
+			"name": "CreateLoyaltyforUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user_id\": \"2\",\n    \"points\": \"50\",\n    \"discount_id\": \"1\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8888/mayakitchen/API/CreateLoyaltyProgram.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"mayakitchen",
+						"API",
+						"CreateLoyaltyProgram.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateLoyaltyForUser",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"user_id\": \"2\",\n  \"points\": \"100\",\n  \"discount_id\":\"1\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8888/mayakitchen/API/UpdateLoyalty.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"mayakitchen",
+						"API",
+						"UpdateLoyalty.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteLoyaltyForUser",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user_id\":\"2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8888/mayakitchen/API/deleteLoyalty.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"mayakitchen",
+						"API",
+						"deleteLoyalty.php"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

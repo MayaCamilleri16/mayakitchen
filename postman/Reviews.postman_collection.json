@@ -1,0 +1,97 @@
+{
+	"info": {
+		"_postman_id": "2502ca4c-c902-4965-8238-24b18a86c486",
+		"name": "Reviews",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32851632"
+	},
+	"item": [
+		{
+			"name": "Createreview",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user_id\":\"1\",\n    \"comment\":\"Good service, polite waiters\",\n    \"rating\":\"5\",\n    \"time\": 17\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8888/mayakitchen/API/createReviews.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"mayakitchen",
+						"API",
+						"createReviews.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteReviews",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8888/mayakitchen/API/deleteReviews.php?id=2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"mayakitchen",
+						"API",
+						"deleteReviews.php"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateReviews",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\":\"1\",\n    \"user_id\":\"1\",\n    \"rating\":\"2\",\n    \"comment\":\"poor service\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8888/mayakitchen/API/updateReviews.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"mayakitchen",
+						"API",
+						"updateReviews.php"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

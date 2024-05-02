@@ -1,0 +1,118 @@
+{
+	"info": {
+		"_postman_id": "85ced036-f9c4-4c5c-90a9-b7945cdb9df4",
+		"name": "DailySpecials",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32851632"
+	},
+	"item": [
+		{
+			"name": "CreateSpecials",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"date\": \"2024-04-25\",\n    \"food_special\": \"Thai Green Curry\",\n    \"price\": 14.99,\n    \"description\": \"Thai Green Curry is a traditional Thai dish with a creamy coconut milk base, green curry paste, and various vegetables. Served with your choice of protein and garnished with Thai basil.\"\n}\n\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8888/mayakitchen/API/createDailySpecials.php?",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"mayakitchen",
+						"API",
+						"createDailySpecials.php"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateSpecial",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\":\"1\",\n    \"date\": \"2024-05-25\",\n    \"food_special\": \"Thai Green Curry\",\n    \"price\": 16.99,\n    \"description\": \"Thai Green Curry is a traditional Thai dish with a creamy coconut milk base, green curry paste, and various vegetables. Served with your choice of protein and garnished with Thai basil.\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8888/mayakitchen/API/UpdateDailySpecials.php?",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"mayakitchen",
+						"API",
+						"UpdateDailySpecials.php"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteSpecial",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\":\"3\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8888/mayakitchen/API/DeleteDailySpecials.php?",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"mayakitchen",
+						"API",
+						"DeleteDailySpecials.php"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
