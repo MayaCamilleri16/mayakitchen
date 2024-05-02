@@ -16,6 +16,40 @@ class EventFeedback {
         $this->conn = $db;
     }
 
+      // Method to read all feedback
+      public function read() {
+        $query = 'SELECT feedback_id, event_id, user_id, comment, time, rating FROM ' . $this->table . ' ORDER BY time DESC';
+        
+        // Prepare and execute the statement
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        
+        // Fetch all rows as an associative array
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $result;
+    }
+
+    // Method to read a single feedback entry based on feedback_id
+    public function read_single() {
+        $query = 'SELECT feedback_id, event_id, user_id, comment, time, rating FROM ' . $this->table . ' WHERE feedback_id = :feedback_id';
+        
+        // Prepare the statement
+        $stmt = $this->conn->prepare($query);
+        
+        // Bind the feedback_id parameter
+        $stmt->bindParam(':feedback_id', $this->feedback_id, PDO::PARAM_INT);
+        
+        // Execute the statement
+        $stmt->execute();
+        
+        // Fetch the row as an associative array
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        return $result;
+    }
+
+
     // Method to create new feedback
     public function createFeedback() {
         $query = 'INSERT INTO ' . $this->table . ' (event_id, user_id, comment, time, rating)
@@ -105,6 +139,18 @@ class EventFeedback {
             return false; // Feedback deletion failed
         }
     }
+
+      // Method to get feedback for a specific event based on event_id
+      public function getEventFeedback() {
+        $query = 'SELECT feedback_id, event_id, user_id, comment, time, rating FROM ' . $this->table . ' WHERE event_id = :event_id ORDER BY time DESC';
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':event_id', $this->event_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $result;
+    }
+
 }
 
 

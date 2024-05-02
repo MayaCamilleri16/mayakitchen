@@ -18,7 +18,35 @@ class Recipes {
     public function __construct($db) {
         $this->conn = $db;
     }
+    
+    public function read() {
 
+        $query = 'SELECT recipe_id, recipe_name, prep_time_minutes, total_time_minutes, servings, meal_type, instructions FROM ' . $this->table . ' ORDER BY recipe_id ASC';
+    
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $recipes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Return the recipes
+        return $recipes;
+    }
+
+    
+    public function readSingle() {
+        $query = 'SELECT recipe_id, recipe_name, prep_time_minutes, total_time_minutes, servings, meal_type, instructions FROM ' . $this->table . ' WHERE recipe_id = :recipe_id';
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':recipe_id', $this->recipe_id, PDO::PARAM_INT);
+        
+        // Execute the statement
+        $stmt->execute();
+        
+        // Fetch the row as an associative array
+        $recipe = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        // Return the recipe
+        return $recipe;
+    }
+    
     public function create() {
         $query = 'INSERT INTO ' . $this->table . ' (recipe_name, prep_time_minutes, total_time_minutes, cook_time_minutes, servings, meal_type, instructions) VALUES (:recipe_name, :prep_time_minutes, :total_time_minutes, :cook_time_minutes, :servings, :meal_type, :instructions)';
         
@@ -131,7 +159,7 @@ class Recipes {
         // Sanitize the input data
         $this->recipe_id = intval($this->recipe_id);
         
-        // Bind the parameter
+        // Bind the parameterz
         $stmt->bindParam(':recipe_id', $this->recipe_id, PDO::PARAM_INT);
         
         // Execute the statement

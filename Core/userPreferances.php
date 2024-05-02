@@ -1,69 +1,51 @@
 <?php
-
-class ServeOrderFeedback {
-    // Database connection
+class UserPreferences {
     private $conn;
-    // Table name
-    private $table = 'serve_feedback';
+    private $table = 'food_preferences';
 
-    // Feedback properties
-    public $serve_feedback_id;
-    public $order_id;
-    public $rating;
-    public $comment;
+    public $id;
+    public $user_id;
+    public $preference_name;
+    private $authenticated; 
+    private $authorized; 
 
-    // Constructor to initialize the database connection
     public function __construct($db) {
         $this->conn = $db;
     }
 
-    // Method to create a new feedback entry
     public function create() {
-        // Query to insert a new feedback entry into the database
-        $query = 'INSERT INTO ' . $this->table . ' (order_id, rating, comment) 
-                  VALUES (:order_id, :rating, :comment)';
+        $query = 'INSERT INTO ' . $this->table . ' (preference_name) VALUES (:preference_name)';
+        
+        // Prepare the statement
         $stmt = $this->conn->prepare($query);
-
-        // Sanitize input
-        $this->order_id = htmlspecialchars(strip_tags($this->order_id));
-        $this->rating = htmlspecialchars(strip_tags($this->rating));
-        $this->comment = htmlspecialchars(strip_tags($this->comment));
-
+        $this->preference_name = htmlspecialchars(strip_tags($this->preference_name));
+        
         // Bind parameters
-        $stmt->bindParam(':order_id', $this->order_id);
-        $stmt->bindParam(':rating', $this->rating);
-        $stmt->bindParam(':comment', $this->comment);
-
-        // Execute query
+        $stmt->bindParam(':preference_name', $this->preference_name);
+        
+        // Execute the query
         if ($stmt->execute()) {
             return true;
         }
-
+        
         // Print error message if execution fails
-        printf('Error: %s. \n', $stmt->error);
+        printf('Error: %s. \n', $stmt->errorInfo()[2]);
         return false;
     }
+    
 
-    // Method to update an existing feedback entry
     public function update() {
-        // Query to update feedback entry based on serve_feedback_id
-        $query = 'UPDATE ' . $this->table . ' 
-                  SET order_id = :order_id, rating = :rating, comment = :comment 
-                  WHERE serve_feedback_id = :serve_feedback_id';
-        
+        $query = 'UPDATE ' . $this->table . ' SET preference_name = :preference_name WHERE preferences_id = :preferences_id';
+
         $stmt = $this->conn->prepare($query);
 
         // Sanitize input
-        $this->serve_feedback_id = htmlspecialchars(strip_tags($this->serve_feedback_id));
-        $this->order_id = htmlspecialchars(strip_tags($this->order_id));
-        $this->rating = htmlspecialchars(strip_tags($this->rating));
-        $this->comment = htmlspecialchars(strip_tags($this->comment));
+        $this->preferences_id = htmlspecialchars(strip_tags($this->preferences_id));
+        $this->preference_name = htmlspecialchars(strip_tags($this->preference_name));
 
         // Bind parameters
-        $stmt->bindParam(':serve_feedback_id', $this->serve_feedback_id);
-        $stmt->bindParam(':order_id', $this->order_id);
-        $stmt->bindParam(':rating', $this->rating);
-        $stmt->bindParam(':comment', $this->comment);
+        $stmt->bindParam(':preferences_id', $this->preferences_id);
+        $stmt->bindParam(':preference_name', $this->preference_name);
 
         // Execute query
         if ($stmt->execute()) {
@@ -75,21 +57,19 @@ class ServeOrderFeedback {
         return false;
     }
 
-    // Method to delete a feedback entry
     public function delete() {
-        // Query to delete feedback entry based on serve_feedback_id
-        $query = 'DELETE FROM ' . $this->table . ' WHERE serve_feedback_id = :serve_feedback_id';
-        
+        $query = 'DELETE FROM ' . $this->table . ' WHERE preferences_id = :preferences_id';
+
         $stmt = $this->conn->prepare($query);
 
         // Sanitize input
-        $this->serve_feedback_id = htmlspecialchars(strip_tags($this->serve_feedback_id));
+        $this->preferences_id = htmlspecialchars(strip_tags($this->preferences_id));
 
         // Bind parameter
-        $stmt->bindParam(':serve_feedback_id', $this->serve_feedback_id, PDO::PARAM_INT);
+        $stmt->bindParam(':preferences_id', $this->preferences_id);
 
-        // Execute query
         try {
+            // Execute query
             if ($stmt->execute()) {
                 return true;
             } else {
@@ -97,10 +77,10 @@ class ServeOrderFeedback {
                 return false;
             }
         } catch (PDOException $e) {
-            // Handle any potential exceptions
-            printf('Error: %s. \n', $e->getMessage());
+            // Handle integrity constraint violation
             return false;
         }
     }
 }
+
 ?>

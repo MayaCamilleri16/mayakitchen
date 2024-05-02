@@ -1,20 +1,16 @@
 <?php
-// Allow requests from any origin
+
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
-
-// Allow certain HTTP methods
 header('Access-Control-Allow-Methods: PUT');
 header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
-// Include database initialization and Tables class
+
 include_once('../core/initialize.php');
 include_once('../core/tables.php');
 
-// Create an instance of the Tables class
-$table = new Tables($db);
 
-// Get the raw PUT data from the request
+$table = new Tables($db);
 $data = json_decode(file_get_contents('php://input'));
 
 // Check if the required properties are set in the request data

@@ -16,7 +16,7 @@ $UserOrdersApp = new UserOrdersApp($db);
 // Get the raw POST data from the request
 $data = json_decode(file_get_contents('php://input'));
 
-// Check if the required properties are set in the request data
+
 if (
     isset($data->order_id) &&
     isset($data->user_id) && 

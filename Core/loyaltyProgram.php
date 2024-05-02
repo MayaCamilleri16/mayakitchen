@@ -81,6 +81,31 @@ class LoyaltyProgram {
         // Execute the statement and return the result
         return $stmt->execute();
     }
+
+ //user can view their loyalty points
+public function getLoyaltyPoints() {
+    $query = 'SELECT points FROM ' . $this->table . ' WHERE user_id = :user_id';
+
+    // Prepare the statement
+    $stmt = $this->conn->prepare($query);
+
+    // Bind the user_id parameter
+    $stmt->bindParam(':user_id', $this->user_id, PDO::PARAM_INT);
+
+    // Execute the statement
+    $stmt->execute();
+
+    // Fetch the result as an associative array
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Return the points, or null if not found
+    if ($result && isset($result['points'])) {
+        return $result['points'];
+    } else {
+        return null;
+    }
+}
+
 }
 
 

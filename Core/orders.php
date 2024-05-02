@@ -16,6 +16,24 @@ class Orders {
         $this->conn = $db;
     }
 
+      // Read all orders
+      public function read() {
+        $query = 'SELECT * FROM ' . $this->table;
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Read a single order by order_id
+    public function readSingle() {
+        $query = 'SELECT * FROM ' . $this->table . ' WHERE order_id = :order_id';
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':order_id', $this->order_id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
 //waiter can create a new order
 public function create() {
     $query = 'INSERT INTO `' . $this->table . '` 
@@ -78,23 +96,6 @@ public function create() {
         return $stmt->execute();
     }
     
-    // Read all orders
-    public function read() {
-        $query = 'SELECT * FROM ' . $this->table;
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    // Read a single order by order_id
-    public function readSingle() {
-        $query = 'SELECT * FROM ' . $this->table . ' WHERE order_id = :order_id';
-
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':order_id', $this->order_id);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
 
     public function getOrderDetails($order_id) {
         $query = 'SELECT * FROM `' . $this->table . '` WHERE order_id = :order_id';
@@ -103,7 +104,6 @@ public function create() {
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    
     
 
     // waiter marks order as served

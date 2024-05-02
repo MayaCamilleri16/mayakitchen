@@ -1,38 +1,30 @@
 <?php
-
-
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
-
+// Include database initialization and the Food class
 include_once('../core/initialize.php');
-$request_body = file_get_contents('php://input');
+$food = new Food($db);
+$data = json_decode(file_get_contents('php://input'), true);
 
-// Decode the JSON data
-$data = json_decode($request_body, true);
+
 if (isset($data['food_id'])) {
-  
-    $food = new Food($db);
-    $food->food_id = intval($data['food_id']);
-    print_r($food);
-    
-    // Call the getFoodDetails method
-    $stmt = $food->getFoodDetails();
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    // food_id property of the Food object
+    $food->food_id = $data['food_id'];
 
-    if ($result) {
-        // Return the food details as a JSON response
-        http_response_code(200); // OK
-        echo json_encode($result);
+    // Call the getFoodDetails method to retrieve the details of the food item
+    $foodDetails = $food->getFoodDetails();
+
+    // Check if the food item details were found
+    if ($foodDetails !== false) {
+        // Return the food item details as a JSON response
+        echo json_encode($foodDetails);
     } else {
-        // No food item found for the specified food ID
-        http_response_code(404); // Not Found
-        echo json_encode(array('message' => 'Food item not found.'));
+        // Return an error message if the food item was not found
+        echo json_encode(array('message' => 'Food item not found'));
     }
 } else {
-    // Missing required 'food_id' field in the request body
-    http_response_code(400); // Bad Request
-    echo json_encode(array('message' => 'Missing required field: food_id.'));
+    // Return an error message if 'food_id' is not provided in the request
+    echo json_encode(array('message' => 'Please provide a food_id'));
 }
-
 ?>

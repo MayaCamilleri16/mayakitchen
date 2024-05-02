@@ -1,6 +1,6 @@
 <?php
 
-// Allow cross-origin requests from any origin
+//header
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 

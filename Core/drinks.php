@@ -149,5 +149,11 @@ public function getDrinkDetails() {
     // Return the statement so that the calling function can fetch the results
     return $stmt;
 }
+
+// users can view all drinks list
+public function getDrinkMenu() {
+    $result = $this->read();
+    return $result;
+}
 }
 ?>

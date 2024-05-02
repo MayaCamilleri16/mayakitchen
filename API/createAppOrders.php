@@ -1,11 +1,10 @@
 <?php
-//  headers to allow access from any origin and specify the content type as JSON
+//  headers 
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
-// for database initialization and the AppOrders class
 include_once('../core/initialize.php');
 
 
@@ -14,8 +13,6 @@ $order = new AppOrders($db);
 
 // Get the input data from the request
 $data = json_decode(file_get_contents('php://input'), true);
-
-// Validate the input data to ensure that all required fields are present
 if (
     isset($data['user_id']) &&
     isset($data['order_date']) &&

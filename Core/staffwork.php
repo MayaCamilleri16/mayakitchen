@@ -118,62 +118,6 @@ class Staff {
         printf('Error: %s. \n',$stmt->error);
         return false;
     }
-
-public function getEventFeedback($event_id) {
-    // Define the query to retrieve feedback for the specified event
-    $query = 'SELECT ef.feedback_id, ef.event_id, ef.user_id, ef.comment, ef.time, ef.rating, u.username AS user_name
-              FROM event_feedback ef
-              JOIN users u ON ef.user_id = u.user_id
-              WHERE ef.event_id = :event_id
-              ORDER BY ef.time DESC';
-
-    // Prepare the statement
-    $stmt = $this->conn->prepare($query);
-
-    // Bind the event_id parameter
-    $stmt->bindParam(':event_id', $event_id, PDO::PARAM_INT);
-
-    // Execute the statement
-    $stmt->execute();
-
-    // Retrieve the feedback as an associative array
-    $feedbackList = [];
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $feedbackList[] = array(
-            'feedback_id' => $row['feedback_id'],
-            'event_id' => $row['event_id'],
-            'user_id' => $row['user_id'],
-            'comment' => $row['comment'],
-            'time' => $row['time'],
-            'rating' => $row['rating'],
-            'user_name' => $row['user_name']
-        );
-    }
-
-    // Return the feedback list
-    return $feedbackList;
-}
-
-public function getUserOrderDetails($order_id, $user_id) {
-    // Define the query to retrieve the order details based on order_id and user_id
-    $query = 'SELECT * FROM ' . $this->table . ' WHERE order_id = :order_id AND user_id = :user_id';
-    
-    // Prepare the statement
-    $stmt = $this->conn->prepare($query);
-    
-    // Bind the parameters
-    $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
-    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-    
-    // Execute the statement
-    $stmt->execute();
-    
-    // Fetch the order details as an associative array
-    $orderDetails = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-    // Return the order details
-    return $orderDetails;
-}
 }
 
 

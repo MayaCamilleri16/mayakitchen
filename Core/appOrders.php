@@ -105,6 +105,21 @@ class AppOrders {
             return false;
         }
     }
+      // Function to allow a user to get details of a specific order 
+      public function getOrderDetails() {
+        $query = 'SELECT * FROM ' . $this->table . ' WHERE order_id = :order_id';
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':order_id', $this->order_id, PDO::PARAM_INT);
+        
+        // Execute the statement
+        $stmt->execute();
+        
+        // Fetch the order details as an associative array
+        $orderDetails = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        // Return the order details
+        return $orderDetails;
+    }
 }
 
 ?>

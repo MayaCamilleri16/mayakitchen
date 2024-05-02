@@ -4,7 +4,7 @@ header('Content-Type: application/json');
 header('Access-Control-Allow-Methods: PUT');
 header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
-// Include initialization and EventFeedback class
+// initialization 
 include_once('../core/initialize.php');
 
 // Initialize EventFeedback object

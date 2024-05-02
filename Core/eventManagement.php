@@ -17,6 +17,37 @@ class EventManagement {
         $this->conn = $db;
     }
 
+      // Function to read all events
+      public function read() {
+        $query = 'SELECT event_id, user_id, event_name, event_date, event_time, party_size FROM ' . $this->table . ' ORDER BY event_date ASC, event_time ASC';
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        
+        // Fetch all rows as an associative array
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $result;
+    }
+
+    // Function to read a single event based on event_id
+    public function read_single() {
+        $query = 'SELECT event_id, user_id, event_name, event_date, event_time, party_size FROM ' . $this->table . ' WHERE event_id = :event_id';
+        
+        $stmt = $this->conn->prepare($query);
+        
+        // Bind the event_id parameter
+        $stmt->bindParam(':event_id', $this->event_id, PDO::PARAM_INT);
+        
+        // Execute the query
+        $stmt->execute();
+        
+        // Fetch the row as an associative array
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        return $result;
+    }
+
     public function createEvent() {
         $query = 'INSERT INTO ' . $this->table . ' (user_id, event_name, event_date, event_time, party_size)
                   VALUES (:user_id, :event_name, :event_date, :event_time, :party_size)';
@@ -109,6 +140,27 @@ public function delete() {
         return false;
     }
 }
+// user view the events 
+public function viewUserEvents() {
+    $query = 'SELECT event_id, event_name, event_date, event_time, party_size FROM ' . $this->table . ' WHERE user_id = :user_id ORDER BY event_date ASC, event_time ASC';
+
+    // Prepare the query statement
+    $stmt = $this->conn->prepare($query);
+
+    // Bind the user_id parameter
+    $stmt->bindParam(':user_id', $this->user_id, PDO::PARAM_INT);
+
+    // Execute the query
+    $stmt->execute();
+
+    // Fetch the results as an associative array
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Return the results
+    return $result;
 }
+
+}
+
 
 ?>

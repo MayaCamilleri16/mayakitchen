@@ -4,17 +4,15 @@
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
-// Include necessary files
+
 include_once('../core/initialize.php');
 
-// Check if the request method is POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405); // Method Not Allowed
     echo json_encode(array('message' => 'Method Not Allowed'));
     exit();
 }
 
-// Check if data is provided in the request body
 $data = json_decode(file_get_contents('php://input'));
 
 // Check if preference_name is provided

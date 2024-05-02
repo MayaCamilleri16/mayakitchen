@@ -1,6 +1,6 @@
 <?php
 
-lass Feedback {
+Class Feedback {
     // Database connection
     private $conn;
     // Table name
@@ -79,7 +79,17 @@ lass Feedback {
         // Execute query
         return $stmt->execute();
     }
-    
+
+    //the staff could view the user feedback
+   public function getUserFeedback() {
+    $query = 'SELECT * FROM ' . $this->table . ' WHERE user_id = :user_id ORDER BY serve_feedback_id ASC';
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':user_id', $this->user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $feedbacks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $feedbacks;
+}
+
 }
 
 ?>

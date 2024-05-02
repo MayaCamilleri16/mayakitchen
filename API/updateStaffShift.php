@@ -1,13 +1,9 @@
 <?php
-//requests from any origin and set the content type to JSON
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
-
-// HTTP methods
 header('Access-Control-Allow-Methods: PUT');
 header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
-// Include necessary files
 include_once('../core/initialize.php'); // Adjust the path as needed
 include_once('../core/staff_shift.php');
 

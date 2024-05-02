@@ -11,7 +11,7 @@ $food = new Food($db);
 $request_body = file_get_contents('php://input');
 $data = json_decode($request_body, true);
 
-// Check if the necessary data is provided
+
 if (isset($data['name']) && isset($data['price']) && isset($data['extra'])) {
     // Retrieve data from the request body
     $food->name = $data['name'];

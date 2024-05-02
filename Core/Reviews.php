@@ -108,13 +108,12 @@ class Reviews {
         return false;
     }
     public function getUserReviews() {
-        // Define the query to retrieve all user reviews
         $query = 'SELECT r.id, r.user_id, r.rating, r.comment, r.time, u.username AS user_name
                   FROM ' . $this->table . ' r
                   JOIN users u ON r.user_id = u.id
                   ORDER BY r.time DESC';
     
-        // Prepare the statement
+        // statement
         $stmt = $this->conn->prepare($query);
     
         // Execute the statement
@@ -132,8 +131,6 @@ class Reviews {
                 'user_name' => $row['user_name']
             );
         }
-    
-        // Return the reviews list
         return $reviewsList;
     }    
     

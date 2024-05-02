@@ -4,31 +4,26 @@ header('Content-Type: application/json');
 
 include_once('../core/initialize.php');
 
+$order_id = isset($data->order_id) ? intval($data->order_id) : 0;
 
-// JSON request data
-$data = json_decode(file_get_contents('php://input'));
-
-// Check if user_id is provided and valid
-if (!empty($data->user_id) && is_numeric($data->user_id)) {
-    // Instantiate the ServeOrderFeedback class
-    $serveOrderFeedback = new ServeOrderFeedback($db);
-    $serveOrderFeedback->user_id = $data->user_id;
-
-    // Fetch user feedback
-    $feedback = $serveOrderFeedback->getUserFeedback();
-
-    // Check if feedback is retrieved successfully
-    if ($feedback) {
-        // Return the feedback data as a JSON response
-        echo json_encode($feedback);
+if ($order_id > 0) {
+    $feedback->order_id = $order_id;
+    
+    // Call the getUserOrderFeedback function
+    $feedbacks = $feedback->getUserOrderFeedback();
+    
+    // Check if any feedback is found
+    if (!empty($feedbacks)) {
+        // Return the feedbacks as a JSON response
+        echo json_encode($feedbacks);
     } else {
-        // Return an error message if no feedback found for the provided user_id
-        http_response_code(404); // Not Found
-        echo json_encode(array('message' => 'No feedback found for the provided user_id.'));
+        // Return a 404 Not Found response if no feedback is found
+        header('HTTP/1.1 404 Not Found');
+        echo json_encode(['message' => 'No feedback found for this order']);
     }
 } else {
-    // Return an error message if user_id is not provided or invalid
-    http_response_code(400); // Bad Request
-    echo json_encode(array('message' => 'Incomplete data. Please provide a valid user_id.'));
+    // Return a 400 Bad Request response if order_id is not provided or invalid
+    header('HTTP/1.1 400 Bad Request');
+    echo json_encode(['message' => 'Invalid or missing order_id']);
 }
 ?>

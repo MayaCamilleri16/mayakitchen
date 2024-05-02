@@ -108,22 +108,33 @@ class Food {
         return false;
     }
 
-
-
-
+// Method to user view food details of a specific food item based on food_id
 public function getFoodDetails() {
-   
-    $query = 'SELECT food_id, name, price, extra FROM ' . $this->table . ' WHERE food_id = :food_id LIMIT 1';
-
+    // Define the query to select the food item from the database
+    $query = 'SELECT food_id, name, price, extra FROM ' . $this->table . ' WHERE food_id = :food_id';
+    
+    // Prepare the statement
     $stmt = $this->conn->prepare($query);
     
-    $stmt->bindParam(':food_id', $this->food_id, PDO::PARAM_INT);
+    // Clean the data
+    $this->food_id = htmlspecialchars(strip_tags($this->food_id));
     
-    // Execute the statement
+    // Bind the parameter
+    $stmt->bindParam(':food_id', $this->food_id);
+    
+    // Execute the query
     $stmt->execute();
     
-    // Return the statement so that the calling function can fetch the results
-    return $stmt;
+    // Fetch the result as an associative array
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    // Return the result
+    return $result;
+}
+
+//  user can view all food items
+public function getFoodMenu() {
+    return $this->read();
 }
 
 }
