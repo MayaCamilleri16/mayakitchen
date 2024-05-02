@@ -1,1 +1,36 @@
-site_name: My Docs
+# Site name
+site_name: "Maya's Kitchen API"
+
+# Navigation
+nav:
+  - Home: index.md
+  - Introduction: introduction.md
+  - API Overview: api_overview.md
+  - Dependencies: dependencies.md
+  - Project Structure: project_structure.md
+  - Usage:
+      - API Endpoints: api_endpoints.md
+      - Testing: testing.md
+  - Contributing: contributing.md
+
+# Repository URL for the project
+repo_url: "https://github.com/MayaCamilleri16/mayakitchen"
+
+# Theme settings
+theme:
+  name: "readthedocs"  # You can change the theme here
+  # Additional theme options
+  custom_dir: "theme"
+
+# Plugins
+plugins:
+  - search
+
+# Source directory
+docs_dir: "docs"
+
+# Ignore certain files
+exclude_patterns:
+  - "README.md"
+  - "*.pyc"
+  - "*.pyo"
