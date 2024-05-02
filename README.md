@@ -20,7 +20,7 @@ To get started with the project, follow the instructions below:
 1. **Clone the Repository**: Clone the repository to your local machine.
 
     ```shell
-https://github.com/MayaCamill2004/mayakitchen.git
+https://github.com/MayaCamilleri16/mayakitchen
     ```
 
 2. **Navigate to the Project Directory**: Change to the project directory.
